@@ -30,6 +30,8 @@ hit = [pygame.image.load('./sprites/denne/character/wizzard_m_hit_anim_f0.png')]
 screenW=1200
 screenH=800
 screen = pygame.display.set_mode((screenW,screenH))
+
+clock = pygame.time.Clock()
 pos_y = screenH/2
 pos_x = screenW/2
 model_size = [64,120]
@@ -50,32 +52,47 @@ icon = pygame.image.load('./sprites/tiles/176_224.png')
 pygame.display.set_icon(icon)
 
 
+#Text through GUI
+myFont = pygame.font.SysFont("Times New Roman", 18)
 
+def debug():
+  anim_text = myFont.render('Active Animation: ', True, black)
+  anim_value = myFont.render(anim_stat, True, black)
+  rect = anim_text.get_rect()
+  rect.topleft = (20,20)
 
+  
+  screen.blit(anim_text,rect)
+  screen.blit(anim_value,(rect[0]+140,rect[1]))
 
 
 def redrawGameWindow(walk,idle,hit):
-  global walkCount
+  global walkCount, anim_stat
   screen.fill((88, 55, 24))
   
-  if walkCount + 1 >= 12:
+  if walkCount + 1 >= 13:
     walkCount = 0
     
   if walk_ == True:
     walk = pygame.transform.scale(walk[walkCount//3],(model_size[0],model_size[1]))
     screen.blit(walk,(pos_x,pos_y))
     walkCount += 1
+    anim_stat = "Walking"
+    
     
   if idle_ == True:
     idle = pygame.transform.scale(idle[walkCount//3],(model_size[0],model_size[1]))
     screen.blit(idle,(pos_x,pos_y))
     walkCount += 1
+    anim_stat = "Idle"
 
   if hit_ == True:
     hit = pygame.transform.scale(hit[walkCount//3],(model_size[0],model_size[1]))
     screen.blit(hit,(pos_x,pos_y))
     walkCount += 1
-    
+    anim_stat = "Hit"
+  
+  debug()
   pygame.display.update()
 
 
@@ -85,9 +102,8 @@ def redrawGameWindow(walk,idle,hit):
 # Game loop
 running = True
 while running:
-
   
-  pygame.time.delay(50)
+  clock.tick(30)
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       running = False
@@ -129,7 +145,6 @@ while running:
     walkCount += 1
     walk_ = False
     idle_ = True
-    
     
   redrawGameWindow(walk,idle,hit)
 
