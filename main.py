@@ -15,7 +15,7 @@ class enemy(object):
     self.width = width
     self.height = height
     self.pos_vel = 5
-    self.dash_vel = self.pos_vel*1.5
+    self.dash_vel = self.pos_vel*1.25
     self.walkCount = 0
     self.walk_ = True
     self.walk = [pygame.image.load('./sprites/denne/enemy/necromancer_run_anim_f0.png'),
@@ -51,7 +51,7 @@ class player(object):
     self.height = height
     self.pos_vel = 5
     self.velocity = 0
-    self.dash_vel = self.pos_vel*1.5
+    self.dash_vel = self.pos_vel*1.20
     self.walkCount = 0
     self.anim_stat = "Debug pls..."
     self.walk_ = False
