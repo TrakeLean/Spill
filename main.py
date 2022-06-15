@@ -68,6 +68,11 @@ class player(object):
                 pygame.image.load('./sprites/denne/character/wizzard_m_run_anim_f2.png'),
                 pygame.image.load('./sprites/denne/character/wizzard_m_run_anim_f3.png')]
 
+    self.faceup = [pygame.image.load('./sprites/denne/character/wizzard_m_faceup_anim_f0.png'),
+                pygame.image.load('./sprites/denne/character/wizzard_m_faceup_anim_f1.png'),
+                pygame.image.load('./sprites/denne/character/wizzard_m_faceup_anim_f2.png'),
+                pygame.image.load('./sprites/denne/character/wizzard_m_faceup_anim_f3.png')]
+
     self.idle = [pygame.image.load('./sprites/denne/character/wizzard_m_idle_anim_f0.png'),
                 pygame.image.load('./sprites/denne/character/wizzard_m_idle_anim_f1.png'),
                 pygame.image.load('./sprites/denne/character/wizzard_m_idle_anim_f2.png'),
@@ -84,6 +89,12 @@ class player(object):
       if self.left_ == True:
         walk = pygame.transform.flip(walk,True,False)
       screen.blit(walk,(self.pos_x,self.pos_y))
+      self.walkCount += 1
+      self.anim_stat = "Walking"
+      
+    if self.up_ == True:
+      faceup = pygame.transform.scale(self.faceup[self.walkCount//6],(64,100))
+      screen.blit(faceup,(self.pos_x,self.pos_y+20))
       self.walkCount += 1
       self.anim_stat = "Walking"
       
@@ -272,6 +283,7 @@ while running:
     pos_x_temp = hero.pos_x
     hero.pos_x = hero.pos_x - hero.pos_vel
     hero.velocity = hero.pos_x - pos_x_temp
+    hero.up_ = False
     hero.right_ = False
     hero.left_ = True
     if keys[pygame.K_LSHIFT]:
@@ -283,6 +295,7 @@ while running:
     pos_x_temp = hero.pos_x
     hero.pos_x = hero.pos_x + hero.pos_vel
     hero.velocity = hero.pos_x - pos_x_temp
+    hero.up_ = False
     hero.left_ = False
     hero.right_ = True
     if keys[pygame.K_LSHIFT]:
@@ -295,6 +308,7 @@ while running:
     pos_y_temp = hero.pos_y
     hero.pos_y = hero.pos_y - hero.pos_vel
     hero.velocity = hero.pos_y - pos_y_temp
+    hero.idle_ = False
     hero.down_ = False
     hero.up_ = True
     if keys[pygame.K_LSHIFT]:
@@ -317,10 +331,10 @@ while running:
   if keys[pygame.K_a] or keys[pygame.K_d] or keys[pygame.K_w] or keys[pygame.K_s]:
     hero.idle_ = False
     hero.walk_ = True
-  else:
-    hero.walk_ = False
-    hero.idle_ = True
-    hero.velocity = 0
+  # else:
+  #   hero.walk_ = False
+  #   hero.idle_ = True
+  #   hero.velocity = 0
     
   redrawGameWindow()
 
